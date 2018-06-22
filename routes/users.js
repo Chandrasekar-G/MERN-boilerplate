@@ -1,22 +1,24 @@
-var express = require("express");
-var router = express.Router();
+var express = require("express"),
+    router = express.Router(),
+    model = require("../models/userModel"),
+    STATUS_CODE = require("../constants/statusCodes").STATUS_CODE;
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
-  res.json([
-    {
-      name: "name 1"
-    },
-    {
-      name: "name 2"
-    },
-    {
-      name: "name 3"
-    },
-    {
-      name: "name 4"
-    }
-  ]);
+  try {
+    var userModel = model.User;
+    userModel.find().exec().then(resp => {
+      res.json({
+        isSuccess: true,
+        data: resp
+      })
+    });
+  } catch(err) {
+    res.json({
+      isSuccess: false,
+      error: STATUS_CODE.SERVER_ERROR
+    });
+  }
 });
 
 module.exports = router;
