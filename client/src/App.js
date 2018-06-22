@@ -12,7 +12,7 @@ class App extends Component {
   }
 
   getUsers = async () => {
-    const res = await fetch("/users");
+    const res = await fetch("/api/users");
     const users = await res.json();
     console.log(users);
     this.setState({users});
